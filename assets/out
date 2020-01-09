@@ -35,6 +35,26 @@ export AWS_SECRET_ACCESS_KEY
 AWS_SESSION_TOKEN=$(jq -r '.source.aws_session_token // ""' < "$payload")
 export AWS_SESSION_TOKEN
 
+GOOGLE_APPLICATION_CREDENTIALS="$(mktemp "$TMPDIR/kubernetes-resource-gcp-credentials.XXXXXX")"
+export GOOGLE_APPLICATION_CREDENTIALS
+# Optional. The path of kubeconfig file
+gcp_credentials_json_file="$(jq -r '.params.gcp_credentials_json_file // ""' < "$payload")"
+# Optional. The content of kubeconfig
+gcp_credentials_json="$(jq -r '.source.gcp_credentials_json // ""' < "$payload")"
+if [[ -n "$gcp_credentials_json_file" ]]; then
+  if [[ ! -f "$gcp_credentials_json_file" ]]; then
+    echoerr "gcp_credentials_json_file file '$gcp_credentials_json_file' does not exist"
+    exit 1
+  fi
+
+  cat "$gcp_credentials_json_file" > "$GOOGLE_APPLICATION_CREDENTIALS"
+elif [[ -n "$gcp_credentials_json" ]]; then
+  echo "$gcp_credentials_json" > "$GOOGLE_APPLICATION_CREDENTIALS"
+fi
+if [[ -s "$GOOGLE_APPLICATION_CREDENTIALS" ]]; then
+  gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+fi
+
 setup_kubectl "$payload"
 
 # Required. Specify the operation that you want to perform on one or more
