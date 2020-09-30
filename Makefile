@@ -1,4 +1,4 @@
-IMAGE := zlabjp/kubernetes-resource
+IMAGE := cycloid/kubernetes-resource
 
 .PHONY: image
 image:

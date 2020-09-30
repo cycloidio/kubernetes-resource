@@ -1,6 +1,6 @@
 # kubernetes-resource
 
-[![Build Status](https://travis-ci.org/zlabjp/kubernetes-resource.svg?branch=master)](https://travis-ci.org/zlabjp/kubernetes-resource)
+[![Build Status](https://travis-ci.org/cycloid/kubernetes-resource.svg?branch=master)](https://travis-ci.org/cycloid/kubernetes-resource)
 
 A Concourse resource for controlling the Kubernetes cluster.
 
@@ -10,10 +10,10 @@ A Concourse resource for controlling the Kubernetes cluster.
 
 The version of this resource corresponds to the version of kubectl. We recommend using different version depending on the kubernetes version of the cluster.
 
- - `zlabjp/kubernetes-resource:1.19` ([stable-1.19](https://storage.googleapis.com/kubernetes-release/release/stable-1.19.txt))
- - `zlabjp/kubernetes-resource:1.18` ([stable-1.18](https://storage.googleapis.com/kubernetes-release/release/stable-1.18.txt))
- - `zlabjp/kubernetes-resource:1.17` ([stable-1.17](https://storage.googleapis.com/kubernetes-release/release/stable-1.17.txt))
- - `zlabjp/kubernetes-resource:latest` ([latest](https://storage.googleapis.com/kubernetes-release/release/latest.txt))
+ - `cycloid/kubernetes-resource:1.19` ([stable-1.19](https://storage.googleapis.com/kubernetes-release/release/stable-1.19.txt))
+ - `cycloid/kubernetes-resource:1.18` ([stable-1.18](https://storage.googleapis.com/kubernetes-release/release/stable-1.18.txt))
+ - `cycloid/kubernetes-resource:1.17` ([stable-1.17](https://storage.googleapis.com/kubernetes-release/release/stable-1.17.txt))
+ - `cycloid/kubernetes-resource:latest` ([latest](https://storage.googleapis.com/kubernetes-release/release/latest.txt))
 
 ## Source Configuration
 
@@ -80,7 +80,7 @@ resource_types:
 - name: kubernetes
   type: docker-image
   source:
-    repository: zlabjp/kubernetes-resource
+    repository: cycloid/kubernetes-resource
     tag: "1.19"
 
 resources:

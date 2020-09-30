@@ -1,0 +1,3 @@
+slack-url: ''
+docker-username: ((docker_hub.username))
+docker-password: ((docker_hub.password))
