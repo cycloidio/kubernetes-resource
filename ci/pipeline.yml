@@ -4,7 +4,7 @@
 # DO NOT MAKE CHANGES TO THIS FILE. Instead, modify ci/pipeline.yml.erb and
 # execute build-pipeline-yml.
 #
-# created: 2020-09-30T17:51:15+02:00
+# created: 2021-07-01T11:20:01+02:00
 #
 resource_types:
 - name: file-url
@@ -58,6 +58,22 @@ resources:
     username: ((docker-username))
     password: ((docker-password))
 
+- name: kubernetes-resource-image-1.20
+  type: docker-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.20"
+    username: ((docker-username))
+    password: ((docker-password))
+
+- name: kubernetes-resource-image-1.21
+  type: docker-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.21"
+    username: ((docker-username))
+    password: ((docker-password))
+
 - name: kubernetes-resource-image-latest
   type: docker-image
   source:
@@ -92,6 +108,18 @@ resources:
   type: file-url
   source:
     url: https://storage.googleapis.com/kubernetes-release/release/stable-1.19.txt
+    filename: version
+
+- name: stable-1.20
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.20.txt
+    filename: version
+
+- name: stable-1.21
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.21.txt
     filename: version
 
 - name: latest
@@ -186,6 +214,50 @@ jobs:
       file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
       input_mapping: {version: stable-1.19}
     - put: kubernetes-resource-image-1.19
+      params:
+        build: kubernetes-resource-release
+        load_base: ubuntu-18.04
+        build_args_file: output/build-args-file
+
+- name: build-kubernetes-resource-image-1.20
+  public: true
+  serial: true
+  plan:
+  - do:
+    - aggregate:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-18.04
+        params: {save: true}
+        trigger: true
+      - get: stable-1.20
+        trigger: true
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping: {version: stable-1.20}
+    - put: kubernetes-resource-image-1.20
+      params:
+        build: kubernetes-resource-release
+        load_base: ubuntu-18.04
+        build_args_file: output/build-args-file
+
+- name: build-kubernetes-resource-image-1.21
+  public: true
+  serial: true
+  plan:
+  - do:
+    - aggregate:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-18.04
+        params: {save: true}
+        trigger: true
+      - get: stable-1.21
+        trigger: true
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping: {version: stable-1.21}
+    - put: kubernetes-resource-image-1.21
       params:
         build: kubernetes-resource-release
         load_base: ubuntu-18.04

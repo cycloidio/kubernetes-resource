@@ -1,5 +1,5 @@
 <%
-  kubernetes_versions = %w(stable-1.17 stable-1.18 stable-1.19 latest)
+  kubernetes_versions = %w(stable-1.17 stable-1.18 stable-1.19 stable-1.20 stable-1.21 latest)
   def tag(version); version.sub(/^stable-/, ''); end
   def image_resource_name(version); "kubernetes-resource-image-" + tag(version); end
 

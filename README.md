@@ -10,6 +10,8 @@ A Concourse resource for controlling the Kubernetes cluster.
 
 The version of this resource corresponds to the version of kubectl. We recommend using different version depending on the kubernetes version of the cluster.
 
+ - `cycloid/kubernetes-resource:1.21` ([stable-1.21](https://storage.googleapis.com/kubernetes-release/release/stable-1.21.txt))
+ - `cycloid/kubernetes-resource:1.20` ([stable-1.20](https://storage.googleapis.com/kubernetes-release/release/stable-1.20.txt))
  - `cycloid/kubernetes-resource:1.19` ([stable-1.19](https://storage.googleapis.com/kubernetes-release/release/stable-1.19.txt))
  - `cycloid/kubernetes-resource:1.18` ([stable-1.18](https://storage.googleapis.com/kubernetes-release/release/stable-1.18.txt))
  - `cycloid/kubernetes-resource:1.17` ([stable-1.17](https://storage.googleapis.com/kubernetes-release/release/stable-1.17.txt))
@@ -81,7 +83,7 @@ resource_types:
   type: docker-image
   source:
     repository: cycloid/kubernetes-resource
-    tag: "1.19"
+    tag: "1.21"
 
 resources:
 - name: kubernetes-production
