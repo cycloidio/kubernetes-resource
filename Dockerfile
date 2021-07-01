@@ -5,7 +5,7 @@ MAINTAINER Kazuki Suda <ksuda@zlab.co.jp>
 ARG KUBERNETES_VERSION=
 
 # Do NOT update the next line manually, please use ./scripts/update-aws-iam-authenticator.sh instead
-ARG AWS_IAM_AUTHENTICATOR_VERSION=v0.4.0
+ARG AWS_IAM_AUTHENTICATOR_VERSION=v0.5.3
 
 RUN set -x && \
     apt-get update && \

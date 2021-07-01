@@ -4,7 +4,7 @@
 
 A Concourse resource for controlling the Kubernetes cluster.
 
-*This resource supports AWS EKS. (kubernetes-sigs/aws-iam-authenticator@v0.4.0)*
+*This resource supports AWS EKS. (kubernetes-sigs/aws-iam-authenticator@v0.5.3)*
 
 ## Versions
 
