@@ -4,7 +4,7 @@
 # DO NOT MAKE CHANGES TO THIS FILE. Instead, modify ci/pipeline.yml.erb and
 # execute build-pipeline-yml.
 #
-# created: 2021-07-01T11:20:01+02:00
+# created: 2022-01-26T12:55:35+01:00
 #
 resource_types:
 - name: file-url
@@ -34,22 +34,6 @@ resources:
     tag_filter: v*
 
 
-- name: kubernetes-resource-image-1.17
-  type: docker-image
-  source:
-    repository: cycloid/kubernetes-resource
-    tag: "1.17"
-    username: ((docker-username))
-    password: ((docker-password))
-
-- name: kubernetes-resource-image-1.18
-  type: docker-image
-  source:
-    repository: cycloid/kubernetes-resource
-    tag: "1.18"
-    username: ((docker-username))
-    password: ((docker-password))
-
 - name: kubernetes-resource-image-1.19
   type: docker-image
   source:
@@ -74,6 +58,22 @@ resources:
     username: ((docker-username))
     password: ((docker-password))
 
+- name: kubernetes-resource-image-1.22
+  type: docker-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.22"
+    username: ((docker-username))
+    password: ((docker-password))
+
+- name: kubernetes-resource-image-1.23
+  type: docker-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.23"
+    username: ((docker-username))
+    password: ((docker-password))
+
 - name: kubernetes-resource-image-latest
   type: docker-image
   source:
@@ -92,18 +92,6 @@ resources:
     password: ((docker-password))
 
 
-- name: stable-1.17
-  type: file-url
-  source:
-    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.17.txt
-    filename: version
-
-- name: stable-1.18
-  type: file-url
-  source:
-    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.18.txt
-    filename: version
-
 - name: stable-1.19
   type: file-url
   source:
@@ -120,6 +108,18 @@ resources:
   type: file-url
   source:
     url: https://storage.googleapis.com/kubernetes-release/release/stable-1.21.txt
+    filename: version
+
+- name: stable-1.22
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.22.txt
+    filename: version
+
+- name: stable-1.23
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.23.txt
     filename: version
 
 - name: latest
@@ -152,50 +152,6 @@ jobs:
         load_base: ubuntu-18.04
         build_args_file: output/build-args-file
 
-
-- name: build-kubernetes-resource-image-1.17
-  public: true
-  serial: true
-  plan:
-  - do:
-    - aggregate:
-      - get: kubernetes-resource-release
-        trigger: true
-      - get: ubuntu-18.04
-        params: {save: true}
-        trigger: true
-      - get: stable-1.17
-        trigger: true
-    - task: build-build-args-file
-      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
-      input_mapping: {version: stable-1.17}
-    - put: kubernetes-resource-image-1.17
-      params:
-        build: kubernetes-resource-release
-        load_base: ubuntu-18.04
-        build_args_file: output/build-args-file
-
-- name: build-kubernetes-resource-image-1.18
-  public: true
-  serial: true
-  plan:
-  - do:
-    - aggregate:
-      - get: kubernetes-resource-release
-        trigger: true
-      - get: ubuntu-18.04
-        params: {save: true}
-        trigger: true
-      - get: stable-1.18
-        trigger: true
-    - task: build-build-args-file
-      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
-      input_mapping: {version: stable-1.18}
-    - put: kubernetes-resource-image-1.18
-      params:
-        build: kubernetes-resource-release
-        load_base: ubuntu-18.04
-        build_args_file: output/build-args-file
 
 - name: build-kubernetes-resource-image-1.19
   public: true
@@ -258,6 +214,50 @@ jobs:
       file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
       input_mapping: {version: stable-1.21}
     - put: kubernetes-resource-image-1.21
+      params:
+        build: kubernetes-resource-release
+        load_base: ubuntu-18.04
+        build_args_file: output/build-args-file
+
+- name: build-kubernetes-resource-image-1.22
+  public: true
+  serial: true
+  plan:
+  - do:
+    - aggregate:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-18.04
+        params: {save: true}
+        trigger: true
+      - get: stable-1.22
+        trigger: true
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping: {version: stable-1.22}
+    - put: kubernetes-resource-image-1.22
+      params:
+        build: kubernetes-resource-release
+        load_base: ubuntu-18.04
+        build_args_file: output/build-args-file
+
+- name: build-kubernetes-resource-image-1.23
+  public: true
+  serial: true
+  plan:
+  - do:
+    - aggregate:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-18.04
+        params: {save: true}
+        trigger: true
+      - get: stable-1.23
+        trigger: true
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping: {version: stable-1.23}
+    - put: kubernetes-resource-image-1.23
       params:
         build: kubernetes-resource-release
         load_base: ubuntu-18.04
