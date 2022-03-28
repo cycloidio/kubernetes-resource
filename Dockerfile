@@ -1,4 +1,4 @@
-ARG base_image=ubuntu:18.04
+ARG base_image=ubuntu:20.04
 FROM ${base_image}
 LABEL maintainer="contact@cycloid.io" \
       initiator="kazuki suda <ksuda@zlab.co.jp>"
@@ -10,7 +10,7 @@ ARG AWS_IAM_AUTHENTICATOR_VERSION=v0.5.3
 
 RUN set -x && \
     apt-get update && \
-    apt-get install -y jq curl python-minimal && \
+    apt-get install -y jq curl python3-minimal && \
     # Download and install kubectl
     [ -z "$KUBERNETES_VERSION" ] && KUBERNETES_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt) ||: && \
     curl -s -LO https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl && \

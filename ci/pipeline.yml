@@ -4,7 +4,7 @@
 # DO NOT MAKE CHANGES TO THIS FILE. Instead, modify ci/pipeline.yml.erb and
 # execute build-pipeline-yml.
 #
-# created: 2022-03-28T16:19:00+02:00
+# created: 2022-03-28T16:34:13+02:00
 #
 resource_types:
 - name: file-url
@@ -14,11 +14,11 @@ resource_types:
     tag: latest
 
 resources:
-- name: ubuntu-18.04
+- name: ubuntu-20.04
   type: registry-image
   source:
     repository: ubuntu
-    tag: "18.04"
+    tag: "20.04"
 
 - name: kubernetes-resource
   type: git
@@ -138,7 +138,7 @@ jobs:
     - in_parallel:
       - get: kubernetes-resource
         trigger: true
-      - get: ubuntu-18.04
+      - get: ubuntu-20.04
         params:
           format: oci
         trigger: true
@@ -163,7 +163,7 @@ jobs:
           - name: kubernetes-resource
             path: source
           - name: output
-          - name: ubuntu-18.04
+          - name: ubuntu-20.04
         run:
           path: build
         outputs:
@@ -171,7 +171,7 @@ jobs:
         params:
           CONTEXT: source
           BUILD_ARGS_FILE: output/build-args-file
-          IMAGE_ARG_base_image: ubuntu-18.04/image.tar
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
 
     - put: kubernetes-resource-image-edge
       params:
@@ -186,7 +186,7 @@ jobs:
     - in_parallel:
       - get: kubernetes-resource-release
         trigger: true
-      - get: ubuntu-18.04
+      - get: ubuntu-20.04
         params:
           format: oci
         trigger: true
@@ -211,7 +211,7 @@ jobs:
           - name: kubernetes-resource-release
             path: source
           - name: output
-          - name: ubuntu-18.04
+          - name: ubuntu-20.04
         run:
           path: build
         outputs:
@@ -219,7 +219,7 @@ jobs:
         params:
           CONTEXT: source
           BUILD_ARGS_FILE: output/build-args-file
-          IMAGE_ARG_base_image: ubuntu-18.04/image.tar
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
 
     - put: kubernetes-resource-image-1.19
       params:
@@ -233,7 +233,7 @@ jobs:
     - in_parallel:
       - get: kubernetes-resource-release
         trigger: true
-      - get: ubuntu-18.04
+      - get: ubuntu-20.04
         params:
           format: oci
         trigger: true
@@ -258,7 +258,7 @@ jobs:
           - name: kubernetes-resource-release
             path: source
           - name: output
-          - name: ubuntu-18.04
+          - name: ubuntu-20.04
         run:
           path: build
         outputs:
@@ -266,7 +266,7 @@ jobs:
         params:
           CONTEXT: source
           BUILD_ARGS_FILE: output/build-args-file
-          IMAGE_ARG_base_image: ubuntu-18.04/image.tar
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
 
     - put: kubernetes-resource-image-1.20
       params:
@@ -280,7 +280,7 @@ jobs:
     - in_parallel:
       - get: kubernetes-resource-release
         trigger: true
-      - get: ubuntu-18.04
+      - get: ubuntu-20.04
         params:
           format: oci
         trigger: true
@@ -305,7 +305,7 @@ jobs:
           - name: kubernetes-resource-release
             path: source
           - name: output
-          - name: ubuntu-18.04
+          - name: ubuntu-20.04
         run:
           path: build
         outputs:
@@ -313,7 +313,7 @@ jobs:
         params:
           CONTEXT: source
           BUILD_ARGS_FILE: output/build-args-file
-          IMAGE_ARG_base_image: ubuntu-18.04/image.tar
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
 
     - put: kubernetes-resource-image-1.21
       params:
@@ -327,7 +327,7 @@ jobs:
     - in_parallel:
       - get: kubernetes-resource-release
         trigger: true
-      - get: ubuntu-18.04
+      - get: ubuntu-20.04
         params:
           format: oci
         trigger: true
@@ -352,7 +352,7 @@ jobs:
           - name: kubernetes-resource-release
             path: source
           - name: output
-          - name: ubuntu-18.04
+          - name: ubuntu-20.04
         run:
           path: build
         outputs:
@@ -360,7 +360,7 @@ jobs:
         params:
           CONTEXT: source
           BUILD_ARGS_FILE: output/build-args-file
-          IMAGE_ARG_base_image: ubuntu-18.04/image.tar
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
 
     - put: kubernetes-resource-image-1.22
       params:
@@ -374,7 +374,7 @@ jobs:
     - in_parallel:
       - get: kubernetes-resource-release
         trigger: true
-      - get: ubuntu-18.04
+      - get: ubuntu-20.04
         params:
           format: oci
         trigger: true
@@ -399,7 +399,7 @@ jobs:
           - name: kubernetes-resource-release
             path: source
           - name: output
-          - name: ubuntu-18.04
+          - name: ubuntu-20.04
         run:
           path: build
         outputs:
@@ -407,7 +407,7 @@ jobs:
         params:
           CONTEXT: source
           BUILD_ARGS_FILE: output/build-args-file
-          IMAGE_ARG_base_image: ubuntu-18.04/image.tar
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
 
     - put: kubernetes-resource-image-1.23
       params:
@@ -421,7 +421,7 @@ jobs:
     - in_parallel:
       - get: kubernetes-resource-release
         trigger: true
-      - get: ubuntu-18.04
+      - get: ubuntu-20.04
         params:
           format: oci
         trigger: true
@@ -446,7 +446,7 @@ jobs:
           - name: kubernetes-resource-release
             path: source
           - name: output
-          - name: ubuntu-18.04
+          - name: ubuntu-20.04
         run:
           path: build
         outputs:
@@ -454,7 +454,7 @@ jobs:
         params:
           CONTEXT: source
           BUILD_ARGS_FILE: output/build-args-file
-          IMAGE_ARG_base_image: ubuntu-18.04/image.tar
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
 
     - put: kubernetes-resource-image-latest
       params:

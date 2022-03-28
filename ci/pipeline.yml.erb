@@ -3,7 +3,7 @@
   def tag(version); version.sub(/^stable-/, ''); end
   def image_resource_name(version); "kubernetes-resource-image-" + tag(version); end
 
-  base_image = {repository: 'ubuntu', tag: '18.04'}
+  base_image = {repository: 'ubuntu', tag: '20.04'}
   def base_image.to_s; "#{self[:repository]}-#{self[:tag]}"; end
 %>
 # ci/pipeline.yml
