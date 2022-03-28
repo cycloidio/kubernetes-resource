@@ -23,13 +23,13 @@ resources:
 - name: kubernetes-resource
   type: git
   source:
-    uri: git://github.com/cycloidio/kubernetes-resource.git
+    uri: https://github.com/cycloidio/kubernetes-resource.git
     branch: master
 
 - name: kubernetes-resource-release
   type: git
   source:
-    uri: git://github.com/cycloidio/kubernetes-resource.git
+    uri: https://github.com/cycloidio/kubernetes-resource.git
     branch: master
     tag_filter: v*
 
