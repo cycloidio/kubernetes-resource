@@ -6,7 +6,7 @@ LABEL maintainer="contact@cycloid.io" \
 ARG KUBERNETES_VERSION=
 
 # Do NOT update the next line manually, please use ./scripts/update-aws-iam-authenticator.sh instead
-ARG AWS_IAM_AUTHENTICATOR_VERSION=v0.5.3
+ARG AWS_IAM_AUTHENTICATOR_VERSION=v0.5.5
 
 RUN set -x && \
     apt-get update && \
