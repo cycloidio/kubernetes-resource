@@ -1,6 +1,6 @@
 platform: linux
 image_resource:
-  type: docker-image
+  type: registry-image
   source:
     repository: alpine
     tag: "3.15"
@@ -13,7 +13,6 @@ run:
   args:
   - -exuc
   - |
-    apk --update add jq
-    jq -n '{
-      "KUBERNETES_VERSION": $version
-    }' --arg version "$(cat version/version)" > output/build-args-file
+    cat <<EOF > output/build-args-file
+    KUBERNETES_VERSION=$(cat version/version)
+    EOF

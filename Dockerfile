@@ -1,6 +1,7 @@
-FROM ubuntu:18.04
-
-MAINTAINER Kazuki Suda <ksuda@zlab.co.jp>
+ARG base_image=ubuntu:18.04
+FROM ${base_image}
+LABEL maintainer="contact@cycloid.io" \
+      initiator="kazuki suda <ksuda@zlab.co.jp>"
 
 ARG KUBERNETES_VERSION=
 

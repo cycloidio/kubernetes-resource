@@ -15,14 +15,14 @@
 #
 resource_types:
 - name: file-url
-  type: docker-image
+  type: registry-image
   source:
     repository: pivotalservices/concourse-curl-resource
     tag: latest
 
 resources:
 - name: <%= base_image %>
-  type: docker-image
+  type: registry-image
   source:
     repository: <%= base_image[:repository] %>
     tag: "<%= base_image[:tag] %>"
@@ -42,7 +42,7 @@ resources:
 
 <% kubernetes_versions.each do |version| %>
 - name: <%= image_resource_name(version) %>
-  type: docker-image
+  type: registry-image
   source:
     repository: cycloid/kubernetes-resource
     tag: "<%= tag(version) %>"
@@ -51,7 +51,7 @@ resources:
 <% end %>
 
 - name: kubernetes-resource-image-edge
-  type: docker-image
+  type: registry-image
   source:
     repository: cycloid/kubernetes-resource
     tag: edge
@@ -72,22 +72,47 @@ jobs:
   serial: true
   plan:
   - do:
-    - aggregate:
+    - in_parallel:
       - get: kubernetes-resource
         trigger: true
       - get: <%= base_image %>
-        params: {save: true}
+        params:
+          format: oci
         trigger: true
       - get: latest
         trigger: true
+
     - task: build-build-args-file
       file: kubernetes-resource/ci/tasks/build-build-args-file.yml
-      input_mapping: {version: latest}
+      input_mapping:
+        version: latest
+
+    - task: build
+      privileged: true
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: concourse/oci-build-task
+            tag: latest
+        inputs:
+          - name: kubernetes-resource
+            path: source
+          - name: output
+          - name: <%= base_image %>
+        run:
+          path: build
+        outputs:
+          - name: image
+        params:
+          CONTEXT: source
+          BUILD_ARGS_FILE: output/build-args-file
+          IMAGE_ARG_base_image: <%= base_image %>/image.tar
+
     - put: <%= image_resource_name("edge") %>
       params:
-        build: kubernetes-resource
-        load_base: <%= base_image %>
-        build_args_file: output/build-args-file
+        image: image/image.tar
 
 <% kubernetes_versions.each do |version| %>
 - name: build-<%= image_resource_name(version) %>
@@ -95,20 +120,45 @@ jobs:
   serial: true
   plan:
   - do:
-    - aggregate:
+    - in_parallel:
       - get: kubernetes-resource-release
         trigger: true
       - get: <%= base_image %>
-        params: {save: true}
+        params:
+          format: oci
         trigger: true
       - get: <%= version %>
         trigger: true
+
     - task: build-build-args-file
       file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
-      input_mapping: {version: <%= version %>}
+      input_mapping:
+        version: <%= version %>
+
+    - task: build
+      privileged: true
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: concourse/oci-build-task
+            tag: latest
+        inputs:
+          - name: kubernetes-resource-release
+            path: source
+          - name: output
+          - name: <%= base_image %>
+        run:
+          path: build
+        outputs:
+          - name: image
+        params:
+          CONTEXT: source
+          BUILD_ARGS_FILE: output/build-args-file
+          IMAGE_ARG_base_image: <%= base_image %>/image.tar
+
     - put: <%= image_resource_name(version) %>
       params:
-        build: kubernetes-resource-release
-        load_base: <%= base_image %>
-        build_args_file: output/build-args-file
+        image: image/image.tar
 <% end %>
