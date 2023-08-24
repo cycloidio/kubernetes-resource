@@ -4,7 +4,7 @@
 # DO NOT MAKE CHANGES TO THIS FILE. Instead, modify ci/pipeline.yml.erb and
 # execute build-pipeline-yml.
 #
-# created: 2022-03-28T16:34:13+02:00
+# created: 2023-08-24T16:34:13+02:00
 #
 resource_types:
 - name: file-url
@@ -32,15 +32,6 @@ resources:
     uri: https://github.com/cycloidio/kubernetes-resource.git
     branch: master
     tag_filter: v*
-
-
-- name: kubernetes-resource-image-1.19
-  type: registry-image
-  source:
-    repository: cycloid/kubernetes-resource
-    tag: "1.19"
-    username: ((docker-username))
-    password: ((docker-password))
 
 - name: kubernetes-resource-image-1.20
   type: registry-image
@@ -74,6 +65,46 @@ resources:
     username: ((docker-username))
     password: ((docker-password))
 
+- name: kubernetes-resource-image-1.24
+  type: registry-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.24"
+    username: ((docker-username))
+    password: ((docker-password))
+
+- name: kubernetes-resource-image-1.25
+  type: registry-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.25"
+    username: ((docker-username))
+    password: ((docker-password))
+
+- name: kubernetes-resource-image-1.26
+  type: registry-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.26"
+    username: ((docker-username))
+    password: ((docker-password))
+
+- name: kubernetes-resource-image-1.27
+  type: registry-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.27"
+    username: ((docker-username))
+    password: ((docker-password))
+
+- name: kubernetes-resource-image-1.28
+  type: registry-image
+  source:
+    repository: cycloid/kubernetes-resource
+    tag: "1.28"
+    username: ((docker-username))
+    password: ((docker-password))
+
 - name: kubernetes-resource-image-latest
   type: registry-image
   source:
@@ -91,12 +122,6 @@ resources:
     username: ((docker-username))
     password: ((docker-password))
 
-
-- name: stable-1.19
-  type: file-url
-  source:
-    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.19.txt
-    filename: version
 
 - name: stable-1.20
   type: file-url
@@ -120,6 +145,36 @@ resources:
   type: file-url
   source:
     url: https://storage.googleapis.com/kubernetes-release/release/stable-1.23.txt
+    filename: version
+
+- name: stable-1.24
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.24.txt
+    filename: version
+
+- name: stable-1.25
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.25.txt
+    filename: version
+
+- name: stable-1.26
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.26.txt
+    filename: version
+
+- name: stable-1.27
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.27.txt
+    filename: version
+
+- name: stable-1.28
+  type: file-url
+  source:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable-1.28.txt
     filename: version
 
 - name: latest
@@ -177,53 +232,6 @@ jobs:
       params:
         image: image/image.tar
 
-
-- name: build-kubernetes-resource-image-1.19
-  public: true
-  serial: true
-  plan:
-  - do:
-    - in_parallel:
-      - get: kubernetes-resource-release
-        trigger: true
-      - get: ubuntu-20.04
-        params:
-          format: oci
-        trigger: true
-      - get: stable-1.19
-        trigger: true
-
-    - task: build-build-args-file
-      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
-      input_mapping:
-        version: stable-1.19
-
-    - task: build
-      privileged: true
-      config:
-        platform: linux
-        image_resource:
-          type: registry-image
-          source:
-            repository: concourse/oci-build-task
-            tag: latest
-        inputs:
-          - name: kubernetes-resource-release
-            path: source
-          - name: output
-          - name: ubuntu-20.04
-        run:
-          path: build
-        outputs:
-          - name: image
-        params:
-          CONTEXT: source
-          BUILD_ARGS_FILE: output/build-args-file
-          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
-
-    - put: kubernetes-resource-image-1.19
-      params:
-        image: image/image.tar
 
 - name: build-kubernetes-resource-image-1.20
   public: true
@@ -410,6 +418,241 @@ jobs:
           IMAGE_ARG_base_image: ubuntu-20.04/image.tar
 
     - put: kubernetes-resource-image-1.23
+      params:
+        image: image/image.tar
+
+- name: build-kubernetes-resource-image-1.24
+  public: true
+  serial: true
+  plan:
+  - do:
+    - in_parallel:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-20.04
+        params:
+          format: oci
+        trigger: true
+      - get: stable-1.24
+        trigger: true
+
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping:
+        version: stable-1.24
+
+    - task: build
+      privileged: true
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: concourse/oci-build-task
+            tag: latest
+        inputs:
+          - name: kubernetes-resource-release
+            path: source
+          - name: output
+          - name: ubuntu-20.04
+        run:
+          path: build
+        outputs:
+          - name: image
+        params:
+          CONTEXT: source
+          BUILD_ARGS_FILE: output/build-args-file
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
+
+    - put: kubernetes-resource-image-1.24
+      params:
+        image: image/image.tar
+
+- name: build-kubernetes-resource-image-1.25
+  public: true
+  serial: true
+  plan:
+  - do:
+    - in_parallel:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-20.04
+        params:
+          format: oci
+        trigger: true
+      - get: stable-1.25
+        trigger: true
+
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping:
+        version: stable-1.25
+
+    - task: build
+      privileged: true
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: concourse/oci-build-task
+            tag: latest
+        inputs:
+          - name: kubernetes-resource-release
+            path: source
+          - name: output
+          - name: ubuntu-20.04
+        run:
+          path: build
+        outputs:
+          - name: image
+        params:
+          CONTEXT: source
+          BUILD_ARGS_FILE: output/build-args-file
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
+
+    - put: kubernetes-resource-image-1.25
+      params:
+        image: image/image.tar
+
+- name: build-kubernetes-resource-image-1.26
+  public: true
+  serial: true
+  plan:
+  - do:
+    - in_parallel:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-20.04
+        params:
+          format: oci
+        trigger: true
+      - get: stable-1.26
+        trigger: true
+
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping:
+        version: stable-1.26
+
+    - task: build
+      privileged: true
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: concourse/oci-build-task
+            tag: latest
+        inputs:
+          - name: kubernetes-resource-release
+            path: source
+          - name: output
+          - name: ubuntu-20.04
+        run:
+          path: build
+        outputs:
+          - name: image
+        params:
+          CONTEXT: source
+          BUILD_ARGS_FILE: output/build-args-file
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
+
+    - put: kubernetes-resource-image-1.26
+      params:
+        image: image/image.tar
+
+- name: build-kubernetes-resource-image-1.27
+  public: true
+  serial: true
+  plan:
+  - do:
+    - in_parallel:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-20.04
+        params:
+          format: oci
+        trigger: true
+      - get: stable-1.27
+        trigger: true
+
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping:
+        version: stable-1.27
+
+    - task: build
+      privileged: true
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: concourse/oci-build-task
+            tag: latest
+        inputs:
+          - name: kubernetes-resource-release
+            path: source
+          - name: output
+          - name: ubuntu-20.04
+        run:
+          path: build
+        outputs:
+          - name: image
+        params:
+          CONTEXT: source
+          BUILD_ARGS_FILE: output/build-args-file
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
+
+    - put: kubernetes-resource-image-1.27
+      params:
+        image: image/image.tar
+
+- name: build-kubernetes-resource-image-1.28
+  public: true
+  serial: true
+  plan:
+  - do:
+    - in_parallel:
+      - get: kubernetes-resource-release
+        trigger: true
+      - get: ubuntu-20.04
+        params:
+          format: oci
+        trigger: true
+      - get: stable-1.28
+        trigger: true
+
+    - task: build-build-args-file
+      file: kubernetes-resource-release/ci/tasks/build-build-args-file.yml
+      input_mapping:
+        version: stable-1.28
+
+    - task: build
+      privileged: true
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: concourse/oci-build-task
+            tag: latest
+        inputs:
+          - name: kubernetes-resource-release
+            path: source
+          - name: output
+          - name: ubuntu-20.04
+        run:
+          path: build
+        outputs:
+          - name: image
+        params:
+          CONTEXT: source
+          BUILD_ARGS_FILE: output/build-args-file
+          IMAGE_ARG_base_image: ubuntu-20.04/image.tar
+
+    - put: kubernetes-resource-image-1.28
       params:
         image: image/image.tar
 

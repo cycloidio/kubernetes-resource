@@ -10,11 +10,15 @@ A Concourse resource for controlling the Kubernetes cluster.
 
 The version of this resource corresponds to the version of kubectl. We recommend using different version depending on the kubernetes version of the cluster.
 
+ - `cycloid/kubernetes-resource:1.28` ([stable-1.28](https://storage.googleapis.com/kubernetes-release/release/stable-1.28.txt))
+ - `cycloid/kubernetes-resource:1.27` ([stable-1.27](https://storage.googleapis.com/kubernetes-release/release/stable-1.27.txt))
+ - `cycloid/kubernetes-resource:1.26` ([stable-1.26](https://storage.googleapis.com/kubernetes-release/release/stable-1.26.txt))
+ - `cycloid/kubernetes-resource:1.25` ([stable-1.25](https://storage.googleapis.com/kubernetes-release/release/stable-1.25.txt))
+ - `cycloid/kubernetes-resource:1.24` ([stable-1.24](https://storage.googleapis.com/kubernetes-release/release/stable-1.24.txt))
  - `cycloid/kubernetes-resource:1.23` ([stable-1.23](https://storage.googleapis.com/kubernetes-release/release/stable-1.23.txt))
  - `cycloid/kubernetes-resource:1.22` ([stable-1.22](https://storage.googleapis.com/kubernetes-release/release/stable-1.22.txt))
  - `cycloid/kubernetes-resource:1.21` ([stable-1.21](https://storage.googleapis.com/kubernetes-release/release/stable-1.21.txt))
  - `cycloid/kubernetes-resource:1.20` ([stable-1.20](https://storage.googleapis.com/kubernetes-release/release/stable-1.20.txt))
- - `cycloid/kubernetes-resource:1.19` ([stable-1.19](https://storage.googleapis.com/kubernetes-release/release/stable-1.19.txt))
  - `cycloid/kubernetes-resource:latest` ([latest](https://storage.googleapis.com/kubernetes-release/release/latest.txt))
 
 ## Source Configuration
@@ -83,7 +87,7 @@ resource_types:
   type: docker-image
   source:
     repository: cycloid/kubernetes-resource
-    tag: "1.23"
+    tag: "1.24"
 
 resources:
 - name: kubernetes-production
