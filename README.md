@@ -10,6 +10,10 @@ A Concourse resource for controlling the Kubernetes cluster.
 
 The version of this resource corresponds to the version of kubectl. We recommend using different version depending on the kubernetes version of the cluster.
 
+ - `cycloid/kubernetes-resource:1.32` ([stable-1.32](https://storage.googleapis.com/kubernetes-release/release/stable-1.32.txt))
+ - `cycloid/kubernetes-resource:1.31` ([stable-1.31](https://storage.googleapis.com/kubernetes-release/release/stable-1.31.txt))
+ - `cycloid/kubernetes-resource:1.30` ([stable-1.30](https://storage.googleapis.com/kubernetes-release/release/stable-1.30.txt))
+ - `cycloid/kubernetes-resource:1.29` ([stable-1.29](https://storage.googleapis.com/kubernetes-release/release/stable-1.29.txt))
  - `cycloid/kubernetes-resource:1.28` ([stable-1.28](https://storage.googleapis.com/kubernetes-release/release/stable-1.28.txt))
  - `cycloid/kubernetes-resource:1.27` ([stable-1.27](https://storage.googleapis.com/kubernetes-release/release/stable-1.27.txt))
  - `cycloid/kubernetes-resource:1.26` ([stable-1.26](https://storage.googleapis.com/kubernetes-release/release/stable-1.26.txt))
@@ -25,7 +29,7 @@ The version of this resource corresponds to the version of kubectl. We recommend
 
 ```bash
 # Available tags: https://hub.docker.com/repository/docker/cycloid/kubernetes-resource/tags?page=1&ordering=last_updated
-VERSIONS="1.20 1.21 1.22 1.23 1.24 1.25 1.26 1.27 1.28"
+VERSIONS="1.20 1.21 1.22 1.23 1.24 1.25 1.26 1.27 1.28 1.29 1.30 1.31 1.32"
 
 LATEST=$(echo $VERSIONS| sed -E 's/.* ([^ ]+)$/\1/')
 EXTRA_TAGS=""
@@ -106,7 +110,7 @@ Control the Kubernetes cluster like `kubectl apply`, `kubectl delete`, `kubectl 
 ```yaml
 resource_types:
 - name: kubernetes
-  type: docker-image
+  type: registry-image
   source:
     repository: cycloid/kubernetes-resource
     tag: "1.24"
