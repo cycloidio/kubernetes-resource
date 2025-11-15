@@ -4,12 +4,13 @@
 
 A Concourse resource for controlling the Kubernetes cluster.
 
-*This resource supports AWS EKS. (kubernetes-sigs/aws-iam-authenticator@v0.5.3)*
+*This resource supports AWS EKS. (kubernetes-sigs/aws-iam-authenticator@6)*
 
 ## Versions
 
 The version of this resource corresponds to the version of kubectl. We recommend using different version depending on the kubernetes version of the cluster.
-
+ - `cycloid/kubernetes-resource:1.34` ([stable-1.34](https://storage.googleapis.com/kubernetes-release/release/stable-1.34.txt))
+ - `cycloid/kubernetes-resource:1.33` ([stable-1.33](https://storage.googleapis.com/kubernetes-release/release/stable-1.33.txt))
  - `cycloid/kubernetes-resource:1.32` ([stable-1.32](https://storage.googleapis.com/kubernetes-release/release/stable-1.32.txt))
  - `cycloid/kubernetes-resource:1.31` ([stable-1.31](https://storage.googleapis.com/kubernetes-release/release/stable-1.31.txt))
  - `cycloid/kubernetes-resource:1.30` ([stable-1.30](https://storage.googleapis.com/kubernetes-release/release/stable-1.30.txt))
@@ -29,20 +30,25 @@ The version of this resource corresponds to the version of kubectl. We recommend
 
 ```bash
 # Available tags: https://hub.docker.com/repository/docker/cycloid/kubernetes-resource/tags?page=1&ordering=last_updated
-VERSIONS="1.20 1.21 1.22 1.23 1.24 1.25 1.26 1.27 1.28 1.29 1.30 1.31 1.32"
+VERSIONS="1.33 1.34"
+
+# Push to docker hub
+DOCKER_PUSH=true
 
 LATEST=$(echo $VERSIONS| sed -E 's/.* ([^ ]+)$/\1/')
 EXTRA_TAGS=""
 for version in $VERSIONS;do
-  KUBERNETES_VERSION=$(curl -q https://storage.googleapis.com/kubernetes-release/release/stable-$version.txt 2>/dev/null)
+  KUBERNETES_VERSION=$(curl -qL https://dl.k8s.io/release/stable-$version.txt 2>/dev/null)
   echo $KUBERNETES_VERSION
   if [ "$version" = "$LATEST" ]; then
     EXTRA_TAGS="-t cycloid/kubernetes-resource:latest"
   fi
   docker build -t cycloid/kubernetes-resource:$version $EXTRA_TAGS . --build-arg KUBERNETES_VERSION=$KUBERNETES_VERSION
-  docker push cycloid/kubernetes-resource:$version
-  if [ "$version" = "$LATEST" ]; then
-    docker push cycloid/kubernetes-resource:latest
+  if [ "$DOCKER_PUSH" = "true" ]; then
+    docker push cycloid/kubernetes-resource:$version
+    if [ "$version" = "$LATEST" ]; then
+      docker push cycloid/kubernetes-resource:latest
+    fi
   fi
 done
 ```
