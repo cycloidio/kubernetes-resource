@@ -30,7 +30,7 @@ The version of this resource corresponds to the version of kubectl. We recommend
 
 ```bash
 # Available tags: https://hub.docker.com/repository/docker/cycloid/kubernetes-resource/tags?page=1&ordering=last_updated
-VERSIONS="1.33 1.34"
+VERSIONS="1.35 1.36 1.37"
 
 # Push to docker hub
 DOCKER_PUSH=true
